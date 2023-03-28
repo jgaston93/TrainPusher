@@ -201,15 +201,21 @@ void RenderSystem::HandleEntity(uint32_t entity_id, float delta_time)
 
 void RenderSystem::Update(float delta_time)
 {
-    uint32_t camera_entity_id = m_entity_manager->GetEntityId("player");
+    uint32_t camera_entity_id = m_entity_manager->GetEntityId("camera");
     Transform& camera_transform = m_component_manager->GetComponent<Transform>(camera_entity_id);
 
     uint32_t player_entity_id = m_entity_manager->GetEntityId("player");
     Transform& player_transform = m_component_manager->GetComponent<Transform>(player_entity_id);
 
-    m_eye[0] = camera_transform.position[0];
-    m_eye[1] = camera_transform.position[1];
-    m_eye[2] = camera_transform.position[2] + 10;
+    float camera_speed = 0.125;
+    glm::vec3 offset = glm::vec3(0, 2, 10);
+
+    glm::vec3 desired_position = glm::vec3(0);
+
+    camera_transform.position[0] = camera_transform.position[0] + (player_transform.position[0] - camera_transform.position[0]) * camera_speed;
+    camera_transform.position[1] = camera_transform.position[1] + (player_transform.position[1] - camera_transform.position[1]) * camera_speed;
+
+    m_eye = camera_transform.position + offset;
 
     // Rotation
     glm::mat4 rotation_matrix = glm::mat4(1.0);

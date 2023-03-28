@@ -134,7 +134,7 @@ int main(int argv, char* args[])
         input_map->AddInput(input_list[i]);
     }
     
-    const uint32_t num_entities = 3;
+    const uint32_t num_entities = 503;
     EntityManager entity_manager(num_entities);
     ComponentManager component_manager(num_entities);
 
@@ -247,10 +247,10 @@ void GenerateEntities(EntityManager& entity_manager, ComponentManager& component
 
     transform.position = glm::vec3(0, -2.5, -10);
 
-    quad.extent = glm::vec2(10, 5);
+    quad.extent = glm::vec2(50, 5);
     quad.color = glm::vec3(0, 1, 0);
 
-    bounding_box.extent = glm::vec2(10, 5);
+    bounding_box.extent = glm::vec2(50, 5);
 
     entity_manager.SetEntityState(entity_id, EntityState::ACTIVE);
     entity_manager.SetEntitySignature(entity_id, RENDER_SYSTEM_SIGNATURE | COLLISION_SYSTEM_SIGNATURE);
@@ -260,6 +260,45 @@ void GenerateEntities(EntityManager& entity_manager, ComponentManager& component
     component_manager.AddComponent<BoundingBox>(entity_id, bounding_box);
 
     entity_id++;
+
+    glm::vec2 background_pos = glm::vec2(-25, -5);
+    transform.position = glm::vec3(background_pos[0], background_pos[1], -11);
+    quad.extent = glm::vec2(1, 1);
+
+    glm::vec3 color_1 = glm::vec3(0.8, 0.8, 0.8);
+    glm::vec3 color_2 = glm::vec3(0.5, 0.5, 0.5);
+    bool use_color_1 = true;
+
+    for(uint32_t i = 0; i < 50; i++)
+    {
+        transform.position[1] = background_pos[1];
+
+        for(uint32_t j = 0; j < 10; j++)
+        {
+            transform.position[1] += 1;
+
+            if(use_color_1)
+            {
+                quad.color = color_1;
+            }
+            else
+            {
+                quad.color = color_2;
+            }
+            use_color_1 = !use_color_1;
+
+            entity_manager.SetEntityState(entity_id, EntityState::ACTIVE);
+            entity_manager.SetEntitySignature(entity_id, RENDER_SYSTEM_SIGNATURE);
+
+            component_manager.AddComponent<Transform>(entity_id, transform);
+            component_manager.AddComponent<Quad>(entity_id, quad);
+
+            entity_id++;
+        }
+        use_color_1 = !use_color_1;
+
+        transform.position[0] += 1;
+    }
 
     printf("Num Entities: %d\n", entity_id);
 }

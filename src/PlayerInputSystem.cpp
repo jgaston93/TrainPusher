@@ -33,6 +33,7 @@ void PlayerInputSystem::HandleEntity(uint32_t entity_id, float delta_time)
     float max_player_speed = 10;
     float player_speed = 10;
     float acceleration = 0;
+    float jump_force = 10;
     
     if(m_input_map.IsPressed(GLFW_KEY_LEFT))
     {
@@ -45,7 +46,7 @@ void PlayerInputSystem::HandleEntity(uint32_t entity_id, float delta_time)
 
     if(m_input_map.IsPressed(GLFW_KEY_SPACE) && m_can_jump)
     {
-        rigid_body.velocity[1] = 5;
+        rigid_body.velocity[1] = jump_force;
         m_can_jump = false;
     }
 
@@ -67,5 +68,10 @@ void PlayerInputSystem::HandleEntity(uint32_t entity_id, float delta_time)
     else if(rigid_body.velocity[1] > max_player_speed)
     {
         rigid_body.velocity[1] = max_player_speed;
+    }
+
+    if(rigid_body.acceleration[0] == 0 && m_can_jump)
+    {
+        rigid_body.velocity[0] *= 0.9;
     }
 }
