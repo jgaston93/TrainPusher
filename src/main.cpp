@@ -134,7 +134,7 @@ int main(int argv, char* args[])
         input_map->AddInput(input_list[i]);
     }
     
-    const uint32_t num_entities = 503;
+    const uint32_t num_entities = 506;
     EntityManager entity_manager(num_entities);
     ComponentManager component_manager(num_entities);
 
@@ -251,6 +251,54 @@ void GenerateEntities(EntityManager& entity_manager, ComponentManager& component
     quad.color = glm::vec3(0, 1, 0);
 
     bounding_box.extent = glm::vec2(50, 5);
+
+    entity_manager.SetEntityState(entity_id, EntityState::ACTIVE);
+    entity_manager.SetEntitySignature(entity_id, RENDER_SYSTEM_SIGNATURE | COLLISION_SYSTEM_SIGNATURE);
+
+    component_manager.AddComponent<Transform>(entity_id, transform);
+    component_manager.AddComponent<Quad>(entity_id, quad);
+    component_manager.AddComponent<BoundingBox>(entity_id, bounding_box);
+
+    entity_id++;
+
+    transform.position = glm::vec3(5, 2.5, -10);
+
+    quad.extent = glm::vec2(5, 1);
+    quad.color = glm::vec3(0, 1, 0);
+
+    bounding_box.extent = glm::vec2(5, 1);
+
+    entity_manager.SetEntityState(entity_id, EntityState::ACTIVE);
+    entity_manager.SetEntitySignature(entity_id, RENDER_SYSTEM_SIGNATURE | COLLISION_SYSTEM_SIGNATURE);
+
+    component_manager.AddComponent<Transform>(entity_id, transform);
+    component_manager.AddComponent<Quad>(entity_id, quad);
+    component_manager.AddComponent<BoundingBox>(entity_id, bounding_box);
+
+    entity_id++;
+
+    transform.position = glm::vec3(10, 5, -10);
+
+    quad.extent = glm::vec2(5, 1);
+    quad.color = glm::vec3(0, 1, 0);
+
+    bounding_box.extent = glm::vec2(5, 1);
+
+    entity_manager.SetEntityState(entity_id, EntityState::ACTIVE);
+    entity_manager.SetEntitySignature(entity_id, RENDER_SYSTEM_SIGNATURE | COLLISION_SYSTEM_SIGNATURE);
+
+    component_manager.AddComponent<Transform>(entity_id, transform);
+    component_manager.AddComponent<Quad>(entity_id, quad);
+    component_manager.AddComponent<BoundingBox>(entity_id, bounding_box);
+
+    entity_id++;
+
+    transform.position = glm::vec3(15, 7.5, -10);
+
+    quad.extent = glm::vec2(5, 1);
+    quad.color = glm::vec3(0, 1, 0);
+
+    bounding_box.extent = glm::vec2(5, 1);
 
     entity_manager.SetEntityState(entity_id, EntityState::ACTIVE);
     entity_manager.SetEntitySignature(entity_id, RENDER_SYSTEM_SIGNATURE | COLLISION_SYSTEM_SIGNATURE);

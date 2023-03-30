@@ -43,7 +43,7 @@ void PhysicsSystem::HandleEntity(uint32_t entity_id, float delta_time)
     float normal_y = 0;
 
     rigid_body.velocity[0] += rigid_body.acceleration[0] * move_time;
-    rigid_body.velocity[1] += (rigid_body.acceleration[1] - 9.8) * move_time;
+    rigid_body.velocity[1] += (rigid_body.acceleration[1] - 9.8 * 2.5) * move_time;
 
     glm::vec2 half_extent = glm::vec2(bounding_box.extent[0] / 2, bounding_box.extent[1] / 2);
     glm::vec2 min = glm::vec2(transform.position[0] - half_extent[0], transform.position[1] - half_extent[1]);
@@ -83,6 +83,16 @@ void PhysicsSystem::HandleEntity(uint32_t entity_id, float delta_time)
         }
     }
 
+    if(normal_x != 0)
+    {
+        rigid_body.velocity[0] = 0;
+    }
+
+    if(normal_y != 0)
+    {
+        rigid_body.velocity[1] = 0;
+    }
+
     transform.position[0] += rigid_body.velocity[0] * move_time;
     transform.position[1] += rigid_body.velocity[1] * move_time;
 
@@ -94,7 +104,7 @@ void PhysicsSystem::HandleEntity(uint32_t entity_id, float delta_time)
     transform.position[0] += new_vel[0];
     transform.position[1] += new_vel[1];
 
-    if(move_time < delta_time)
+    if(move_time < delta_time && normal_y == 1)
     {
         Message message;
         message.message_type = MessageType::COLLISION;

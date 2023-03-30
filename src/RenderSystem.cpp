@@ -207,7 +207,7 @@ void RenderSystem::Update(float delta_time)
     uint32_t player_entity_id = m_entity_manager->GetEntityId("player");
     Transform& player_transform = m_component_manager->GetComponent<Transform>(player_entity_id);
 
-    float camera_speed = 0.125;
+    float camera_speed = 0.05;
     glm::vec3 offset = glm::vec3(0, 2, 10);
 
     glm::vec3 desired_position = glm::vec3(0);
